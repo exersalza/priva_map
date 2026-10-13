@@ -1,4 +1,4 @@
-use axum::{routing::get, Router};
+use axum::{Router, routing::get};
 use tokio::net::TcpListener;
 
 pub(crate) mod sql;
