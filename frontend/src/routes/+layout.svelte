@@ -3,14 +3,18 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import type { LayoutProps } from './$types';
 	import ContextMenu, { DEFAULT_PLACEMENT } from '../comp/ContextMenu.svelte';
-	import { getContext, type Snippet } from 'svelte';
+	import { getContext, setContext, type Snippet } from 'svelte';
 
 	let { children }: { children: Snippet } = $props();
 
 	let context = $state({ ...DEFAULT_PLACEMENT, show: false });
-	const registerContextMenu =
-		getContext<(buttons: Array<{ text: string; f: () => void }>) => void>('registerContextMenu');
-	// Define your global context menu actions here if they apply app-wide
+    let contextButtonData = $state([]);
+
+	setContext('registerContextMenu', {
+		update: (newButtons: any) => {
+			contextButtonData = newButtons;
+		}
+	});
 
 	const contextMenu = (e: PointerEvent) => {
 		e.preventDefault();

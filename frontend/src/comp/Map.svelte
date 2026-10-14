@@ -2,6 +2,7 @@
 	import Borderd from './Borderd.svelte';
 	import { Map, TileLayer, Marker, Popup } from 'sveaflet';
 	import type { MapOptions, Map as LLMap, LeafletMouseEvent } from 'leaflet';
+	import { DEFAULT_PLACEMENT } from './ContextMenu.svelte';
 
 	let { coords = $bindable({ home: [53.580013, 10.04076] }), mapInstance = $bindable() } = $props();
 
@@ -17,6 +18,8 @@
 		{ text: 'Save Coords', f: saveCoords },
 		{ text: 'Set Home', f: setHome }
 	]);
+
+    let context = $state({...DEFAULT_PLACEMENT, show: false});
 
 	function hideCM() {
 		context = { ...context, show: false };

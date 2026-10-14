@@ -4,7 +4,7 @@
 		f: () => void;
 	};
 
-    export const DEFAULT_PLACEMENT = {left: -200, top: -200};
+	export const DEFAULT_PLACEMENT = { left: -200, top: -200 };
 </script>
 
 <script lang="ts">
@@ -23,9 +23,20 @@
 	className={'z-[9999] absolute bg-black'}
 	style="left: {left}px;top: {top}px;opacity: {Number(show)}"
 >
-	<div id="contextmenu" class="w-32" onmousedown={(e) => e.stopPropagation()}>
+	<div
+		aria-roledescription=""
+		id="contextmenu"
+		class="w-32"
+		onmousedown={(e) => e.stopPropagation()}
+	>
 		{#each data as entry}
-			<Button type="primary" onclick={entry.f}>{entry.text}</Button>
+			<Button
+				type="primary"
+				onclick={() => {
+					entry.f();
+                    show = false;
+				}}>{entry.text}</Button
+			>
 		{/each}
 	</div>
 </Borderd>
