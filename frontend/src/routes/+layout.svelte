@@ -1,14 +1,13 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '#lib/assets/favicon.svg';
-	import type { LayoutProps } from './$types';
 	import ContextMenu, { DEFAULT_PLACEMENT } from '../comp/ContextMenu.svelte';
-	import { getContext, setContext, type Snippet } from 'svelte';
+	import { setContext, type Snippet } from 'svelte';
 
 	let { children }: { children: Snippet } = $props();
 
 	let context = $state({ ...DEFAULT_PLACEMENT, show: false });
-    let contextButtonData = $state([]);
+	let contextButtonData = $state([]);
 
 	setContext('registerContextMenu', {
 		update: (newButtons: any) => {

@@ -3,8 +3,18 @@
 	import { Map, TileLayer, Marker, Popup } from 'sveaflet';
 	import type { MapOptions, Map as LLMap, LeafletMouseEvent } from 'leaflet';
 	import { DEFAULT_PLACEMENT } from './ContextMenu.svelte';
+	import { getContext, onMount, setContext } from 'svelte';
 
 	let { coords = $bindable({ home: [53.580013, 10.04076] }), mapInstance = $bindable() } = $props();
+
+	const registerContextMenu = getContext<{ update: (buttons: any) => void }>('registerContextMenu');
+
+	onMount(() => {
+		registerContextMenu.update([
+			{ text: 'Save Coords', f: saveCoords },
+			{ text: 'Set Home', f: setHome }
+		]);
+	});
 
 	let mapOptions: MapOptions = {
 		center: coords.home,
@@ -14,18 +24,16 @@
 		attributionControl: false
 	};
 
-	let contextButtonData = $state([
-		{ text: 'Save Coords', f: saveCoords },
-		{ text: 'Set Home', f: setHome }
-	]);
+    let lastCoords;
 
-    let context = $state({...DEFAULT_PLACEMENT, show: false});
+	let context = $state({ ...DEFAULT_PLACEMENT, show: false });
 
 	function hideCM() {
 		context = { ...context, show: false };
 	}
 
 	function saveCoords() {
+        console.log(lastCoords);
 		hideCM();
 	}
 
@@ -40,6 +48,7 @@
 			const { lat, lng } = e.latlng;
 
 			console.log({ lat, lng });
+            lastCoords = {lat, lng};
 			console.log(`Right-clicked at: Lat ${lat}, Lng ${lng}`);
 		});
 	});
